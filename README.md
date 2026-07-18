@@ -16,20 +16,9 @@
     <img src="https://img.shields.io/badge/Framer%20Motion-Animations-E1306C?style=flat-square&logo=framer" alt="Framer Motion" />
     <img src="https://img.shields.io/badge/Zustand-State%20Management-764ABC?style=flat-square" alt="Zustand" />
   </p>
-
-  <div align="center">
-    <img src="https://api.microlink.io?url=https%3A%2F%2Fzomato-pos.vercel.app%2F&screenshot=true&meta=false&colorScheme=dark&viewport.width=1920&viewport.height=1080&viewport.isLandscape=true" alt="TrustBite Desktop Interface Preview" width="100%" style="border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);" />
-    <br>
-    <em>*Auto-generated live preview of the TrustBite platform.*</em>
-  </div>
-
-  <p>
-    <strong>Live Application URL:</strong> <a href="https://zomato-pos.vercel.app/">https://zomato-pos.vercel.app/</a>
-  </p>
-
-  *A high-fidelity Proof of Concept (POC) demonstrating a complete food-tech ecosystem with a premium desktop-grade user interface.*
-
 </div>
+
+> **Live Application URL:** [https://zomato-pos.vercel.app/](https://zomato-pos.vercel.app/)
 
 <br />
 
