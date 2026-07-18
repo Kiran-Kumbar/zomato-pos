@@ -1,14 +1,31 @@
 <div align="center">
   
-  <img src="public/favicon.svg" alt="TrustBite Logo" width="120" height="120" />
+  <img src="https://raw.githubusercontent.com/Kiran-Kumbar/zomato-pos/main/public/favicon.svg" alt="TrustBite Logo" width="100" />
+  <h1>TrustBite POS & Logistics Ecosystem</h1>
+  <p><strong>Order food you actually trust.</strong></p>
 
-  # 🍔 TrustBite Platform
-  **A Next-Generation, Multi-Persona Food Delivery Experience**
+  <p>
+    <a href="https://zomato-pos.vercel.app/" target="_blank">
+      <img src="https://img.shields.io/badge/Live%20Demo-Visit%20Website-FF5A36?style=for-the-badge&logo=vercel" alt="Live Demo" />
+    </a>
+  </p>
 
-  [![Next.js](https://img.shields.io/badge/Next.js-13+-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-  [![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
-  [![Zustand](https://img.shields.io/badge/Zustand-State-orange?style=for-the-badge)](https://github.com/pmndrs/zustand)
-  [![Framer Motion](https://img.shields.io/badge/Framer_Motion-purple?style=for-the-badge&logo=framer)](https://www.framer.com/motion/)
+  <p>
+    <img src="https://img.shields.io/badge/Next.js%2014-App%20Router-black?style=flat-square&logo=next.js" alt="Next.js" />
+    <img src="https://img.shields.io/badge/Tailwind%20CSS-v4-06B6D4?style=flat-square&logo=tailwindcss" alt="Tailwind CSS" />
+    <img src="https://img.shields.io/badge/Framer%20Motion-Animations-E1306C?style=flat-square&logo=framer" alt="Framer Motion" />
+    <img src="https://img.shields.io/badge/Zustand-State%20Management-764ABC?style=flat-square" alt="Zustand" />
+  </p>
+
+  <div align="center">
+    <img src="https://api.microlink.io?url=https%3A%2F%2Fzomato-pos.vercel.app%2F&screenshot=true&meta=false&colorScheme=dark&viewport.width=1920&viewport.height=1080&viewport.isLandscape=true" alt="TrustBite Desktop Interface Preview" width="100%" style="border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);" />
+    <br>
+    <em>*Auto-generated live preview of the TrustBite platform.*</em>
+  </div>
+
+  <p>
+    <strong>Live Application URL:</strong> <a href="https://zomato-pos.vercel.app/">https://zomato-pos.vercel.app/</a>
+  </p>
 
   *A high-fidelity Proof of Concept (POC) demonstrating a complete food-tech ecosystem with a premium desktop-grade user interface.*
 
@@ -44,11 +61,13 @@ Built for efficiency and fairness on the road.
 - **Earnings Breakdown:** Transparent history detailing base pay, distance fees, and active surge bonuses per order.
 - **Zone Demand Heatmap:** Color-coded grids allowing partners to position themselves in high-demand areas.
 
-### 🛡️ 4. Admin Command Center
-The overarching platform management console.
-- **Platform Analytics:** Macro-level metrics including total GMV, active users, and platform-wide Eco-deliveries.
-- **Partner Approval:** Workflow tables for onboarding/rejecting new restaurants and delivery partners.
-- **Dispute Resolution & Zones:** Map-based serviceable zone definitions and active dispute mediation tools.
+### 📈 4. Advanced Admin & Analytics Dashboard
+Designed to oversee the entire logistics ecosystem:
+- **Real-time Platform Metrics**: Visualize Gross Merchandise Value (GMV), Active Orders, and Live Users.
+- **Revenue Trend Charts**: Interactive Recharts-based graphical visualizations for tracking monthly growth and commission margins.
+- **Commission Management**: Set global or per-restaurant commission rates on the fly to maximize profitability.
+- **Fleet Management Map**: Visualize live tracking of all online delivery partners across dynamic geographical zones (simulated via Map interface).
+- **Dispute Resolution Hub**: Dedicated kanban/list system for resolving customer complaints and driver assignment errors.
 
 ---
 
