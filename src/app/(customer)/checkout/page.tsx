@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
+
 import { useCartStore } from '@/store/cartStore';
 import { useAuthStore } from '@/store/authStore';
 import { create as createOrder } from '@/lib/services/order.service';
@@ -9,7 +9,6 @@ import { MapPin, CreditCard, Banknote, Smartphone, Leaf, ChevronRight, CheckCirc
 import { useRouter } from 'next/navigation';
 import PageHeader from '@/components/layout/PageHeader';
 import EmptyState from '@/components/ui/EmptyState';
-import SurgeDisclosure from '@/components/ui/SurgeDisclosure';
 import { calculateSurge } from '@/lib/utils/surgeCalc';
 import { toast } from 'sonner';
 
@@ -26,26 +25,7 @@ export default function CheckoutPage() {
   const [selectedAddress, setSelectedAddress] = useState(ADDRESSES[0].id);
   const [selectedPayment, setSelectedPayment] = useState<'upi' | 'card' | 'cod'>('upi');
   const [isPlacing, setIsPlacing] = useState(false);
-  const [surge, setSurge] = useState({ amount: 0, details: [] as any[] });
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setSurge(calculateSurge());
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return (
-      <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-950 pb-32">
-        <PageHeader title="Checkout" />
-        <div className="p-4 flex flex-col gap-6 animate-pulse mt-4">
-          <div className="h-32 bg-gray-200 dark:bg-gray-800 rounded-3xl" />
-          <div className="h-24 bg-gray-200 dark:bg-gray-800 rounded-3xl" />
-          <div className="h-48 bg-gray-200 dark:bg-gray-800 rounded-3xl" />
-        </div>
-      </div>
-    );
-  }
+  const surge = calculateSurge();
 
   // Totals Calc
   const baseDeliveryFee = 50;
@@ -140,13 +120,10 @@ export default function CheckoutPage() {
               <h3 className="font-bold text-emerald-800 dark:text-emerald-400">Eco Delivery</h3>
               <button 
                 onClick={() => setEcoDelivery(!isEcoDelivery)}
-                className={`w-12 h-6 rounded-full p-1 transition-colors relative ${isEcoDelivery ? 'bg-emerald-500' : 'bg-gray-300 dark:bg-gray-700'}`}
+                className={`w-12 h-6 rounded-full p-1 transition-colors relative flex items-center ${isEcoDelivery ? 'bg-emerald-500' : 'bg-gray-300 dark:bg-gray-700'}`}
               >
-                <motion.div 
-                  layout 
-                  className="w-4 h-4 bg-white rounded-full shadow-sm"
-                  animate={{ x: isEcoDelivery ? 24 : 0 }}
-                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                <div 
+                  className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-300 ease-in-out ${isEcoDelivery ? 'translate-x-6' : 'translate-x-0'}`}
                 />
               </button>
             </div>
@@ -195,7 +172,7 @@ export default function CheckoutPage() {
               </div>
             )}
             <div className="flex justify-between font-medium text-gray-600 dark:text-gray-400">
-              <span className="flex items-center">Delivery Fee <SurgeDisclosure details={surge.details} totalAmount={surge.amount} /></span>
+              <span className="flex items-center gap-2">Delivery Fee {surge.amount > 0 && <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-bold">Surge +₹{surge.amount}</span>}</span>
               <span className="text-gray-900 dark:text-white">₹{finalDeliveryFee}</span>
             </div>
             {isEcoDelivery && (
