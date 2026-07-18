@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Power, MapPin, Navigation, Banknote, X, Check } from 'lucide-react';
+import { Power, MapPin, Navigation, Banknote, X, Check, Filter } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { list as listOrders, update as updateOrder } from '@/lib/services/order.service';
 import { Order } from '@/lib/types/order';
@@ -12,6 +12,7 @@ export default function DeliveryHome() {
   const [isOnline, setIsOnline] = useState(false);
   const [incomingOrder, setIncomingOrder] = useState<Order | null>(null);
   const [countdown, setCountdown] = useState(15);
+  const [filterType, setFilterType] = useState<'all' | 'food' | 'grocery' | 'mixed'>('all');
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -21,7 +22,19 @@ export default function DeliveryHome() {
       timer = setTimeout(async () => {
         const orders = await listOrders();
         // Grab any order that needs delivery for demo
-        const pending = orders.find(o => ['placed', 'accepted', 'preparing', 'ready'].includes(o.status));
+        let pending = orders.find(o => ['placed', 'accepted', 'preparing', 'ready'].includes(o.status));
+        
+        // Mock injecting an orderType if it doesn't exist just for demo
+        if (pending && !pending.orderType) {
+          const types = ['food', 'grocery', 'mixed'] as const;
+          pending.orderType = types[Math.floor(Math.random() * types.length)];
+        }
+
+        // Apply filter
+        if (pending && filterType !== 'all' && pending.orderType !== filterType) {
+          pending = undefined; // pretend none matched
+        }
+
         if (pending) {
           setIncomingOrder(pending);
           setCountdown(15);
@@ -30,7 +43,7 @@ export default function DeliveryHome() {
     }
     
     return () => clearTimeout(timer);
-  }, [isOnline, incomingOrder]);
+  }, [isOnline, incomingOrder, filterType]);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -46,7 +59,7 @@ export default function DeliveryHome() {
   const handleAccept = async () => {
     if (!incomingOrder) return;
     // In real app, we'd assign this to the partner ID
-    await updateOrder(incomingOrder.id, { deliveryPartnerId: 'd1' });
+    await updateOrder(incomingOrder.id, { deliveryPartnerId: 'd1', orderType: incomingOrder.orderType });
     router.push('/delivery/active-order');
   };
 
@@ -59,9 +72,45 @@ export default function DeliveryHome() {
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - ((countdown / 15) * circumference);
 
+  const getTypeColor = (type?: string) => {
+    switch (type) {
+      case 'grocery': return 'from-emerald-500 to-teal-500';
+      case 'mixed': return 'from-purple-500 to-indigo-500';
+      default: return 'from-red-500 to-orange-500';
+    }
+  };
+
+  const getTypeLabel = (type?: string) => {
+    switch (type) {
+      case 'grocery': return 'Grocery Delivery';
+      case 'mixed': return 'Mixed Delivery';
+      default: return 'Food Delivery';
+    }
+  };
+
   return (
-    <div className="flex flex-col h-full min-h-[calc(100vh-8rem)]">
+    <div className="flex flex-col h-full min-h-[calc(100vh-8rem)] relative">
       
+      {/* Filter Toggle */}
+      <div className="absolute top-4 left-0 right-0 z-20 flex justify-center px-4">
+        <div className="bg-white dark:bg-gray-900 rounded-full shadow-lg border border-gray-200 dark:border-gray-800 p-1 flex gap-1 items-center">
+          <Filter className="w-4 h-4 text-gray-400 ml-2 mr-1" />
+          {(['all', 'food', 'grocery', 'mixed'] as const).map(type => (
+            <button
+              key={type}
+              onClick={() => { setFilterType(type); setIncomingOrder(null); }}
+              className={`px-3 py-1.5 rounded-full text-xs font-bold capitalize transition-colors ${
+                filterType === type 
+                  ? 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white' 
+                  : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              {type}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className="flex-1 flex flex-col items-center justify-center relative">
         {/* Background Map Placeholder */}
         <div className="absolute inset-0 z-0 opacity-10 dark:opacity-5 pointer-events-none" 
@@ -94,6 +143,9 @@ export default function DeliveryHome() {
               className="z-10 w-full max-w-sm bg-white dark:bg-gray-900 rounded-3xl p-6 shadow-2xl border border-gray-100 dark:border-gray-800"
             >
               <div className="flex flex-col items-center mb-6 relative">
+                <div className={`absolute -top-10 bg-gradient-to-r ${getTypeColor(incomingOrder.orderType)} text-white text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg`}>
+                  {getTypeLabel(incomingOrder.orderType)}
+                </div>
                 <div className="relative flex items-center justify-center">
                   <svg className="w-24 h-24 transform -rotate-90">
                     <circle cx="48" cy="48" r={radius} stroke="currentColor" strokeWidth="6" fill="transparent" className="text-gray-100 dark:text-gray-800" />
@@ -134,8 +186,8 @@ export default function DeliveryHome() {
                   <div className="absolute -left-[23px] top-1 w-4 h-4 rounded-full bg-orange-100 border-4 border-white dark:border-gray-900 flex items-center justify-center">
                      <div className="w-2 h-2 rounded-full bg-orange-500" />
                   </div>
-                  <p className="font-bold text-sm text-gray-900 dark:text-white">Koramangala Restaurant</p>
-                  <p className="text-xs text-gray-500 font-medium">Pickup (1.2 km away)</p>
+                  <p className="font-bold text-sm text-gray-900 dark:text-white">Reliance Fresh & Punjabi Dhaba</p>
+                  <p className="text-xs text-gray-500 font-medium">Mixed Pickup (1.2 km away)</p>
                 </div>
                 <div className="relative">
                   <div className="absolute -left-[23px] top-1 w-4 h-4 rounded-full bg-blue-100 border-4 border-white dark:border-gray-900 flex items-center justify-center">

@@ -20,4 +20,5 @@ export interface Order {
   deliveredAt?: string;
   surgeReason?: string;
   statusTimestamps?: Record<string, string>;
+  orderType?: 'food' | 'grocery' | 'mixed';
 }

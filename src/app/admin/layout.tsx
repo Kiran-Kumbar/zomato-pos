@@ -3,12 +3,13 @@
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LayoutDashboard, Store, Bike, Map, AlertOctagon, LogOut, Shield } from 'lucide-react';
+import { LayoutDashboard, Store, Bike, Map, AlertOctagon, LogOut, Shield, ShoppingCart } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 
 const NAV = [
   { href: '/admin/dashboard', label: 'Overview', icon: LayoutDashboard },
   { href: '/admin/restaurants', label: 'Restaurants', icon: Store },
+  { href: '/admin/grocery', label: 'Grocery Vendors', icon: ShoppingCart },
   { href: '/admin/delivery-partners', label: 'Riders', icon: Bike },
   { href: '/admin/zones', label: 'Zones', icon: Map },
   { href: '/admin/disputes', label: 'Disputes', icon: AlertOctagon },

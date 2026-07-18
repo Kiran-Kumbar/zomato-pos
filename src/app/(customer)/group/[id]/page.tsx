@@ -130,7 +130,7 @@ export default function GroupOrderPage({ params }: { params: Promise<{ id: strin
       <div className="px-4 py-2 flex flex-col gap-6">
         
         {/* Header / Invite Code */}
-        <div className="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-3xl p-6 text-white shadow-xl shadow-purple-500/20">
+        <div className="bg-gradient-to-r bg-[#FF5A36] rounded-3xl p-6 text-white shadow-xl shadow-[#FF5A36]/20">
           <div className="flex justify-between items-start">
             <div>
               <h2 className="text-2xl font-black mb-1">Group Session</h2>
@@ -145,7 +145,7 @@ export default function GroupOrderPage({ params }: { params: Promise<{ id: strin
             </div>
             <button 
               onClick={handleCopyLink}
-              className="bg-white text-purple-600 px-4 rounded-xl font-bold flex items-center gap-2 hover:bg-gray-100 transition-colors"
+              className="bg-white text-[#FF5A36] px-4 rounded-xl font-bold flex items-center gap-2 hover:bg-gray-100 transition-colors"
             >
               {linkCopied ? <CheckCircle2 className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
             </button>
@@ -176,7 +176,7 @@ export default function GroupOrderPage({ params }: { params: Promise<{ id: strin
         {groupOrder.status === 'open' && (
           <button 
             onClick={handleSimulateJoin}
-            className="bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 font-bold py-3 rounded-2xl border border-purple-200 dark:border-purple-800/50 border-dashed flex items-center justify-center gap-2 active:scale-95 transition-transform"
+            className="bg-purple-100 dark:bg-[#FF5A36]/10 text-purple-700 dark:text-purple-300 font-bold py-3 rounded-2xl border border-[#FF5A36]/30 dark:border-[#FF5A36]/30/50 border-dashed flex items-center justify-center gap-2 active:scale-95 transition-transform"
           >
             <UserPlus className="w-5 h-5" />
             [Dev] Simulate Friend Joining
@@ -207,7 +207,7 @@ export default function GroupOrderPage({ params }: { params: Promise<{ id: strin
 
                   <div className="flex justify-between items-center mb-3">
                     <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-white ${member.userId === 'u1' ? 'bg-purple-500' : 'bg-gray-400'}`}>
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-white ${member.userId === 'u1' ? 'bg-[#FF5A36]' : 'bg-gray-400'}`}>
                         {member.name.charAt(0)}
                       </div>
                       <div>

@@ -192,7 +192,7 @@ export default function RestaurantPage({ params }: { params: Promise<{ id: strin
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
           <div className="flex items-center gap-2 bg-emerald-50 dark:bg-emerald-950/30 p-3 rounded-xl border border-emerald-100 dark:border-emerald-900/30">
-            <Leaf className="w-5 h-5 text-emerald-500" />
+            <Leaf className="w-5 h-5 text-[#FF5A36]" />
             <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-400">
               Eco deliveries: {restaurant.ecoDeliveriesCount} this month
             </span>
@@ -201,7 +201,7 @@ export default function RestaurantPage({ params }: { params: Promise<{ id: strin
           <button 
             onClick={handleStartGroupOrder} 
             disabled={isStartingGroup}
-            className="w-full bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 font-bold py-3 rounded-xl border border-purple-200 dark:border-purple-800/30 flex items-center justify-center gap-2 hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-colors disabled:opacity-50"
+            className="w-full bg-[#FF5A36]/10 dark:bg-purple-900/20 text-[#FF5A36] font-bold py-3 rounded-xl border border-[#FF5A36]/30 dark:border-[#FF5A36]/30/30 flex items-center justify-center gap-2 hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-colors disabled:opacity-50"
           >
             <Users className="w-5 h-5" />
             {isStartingGroup ? 'Starting...' : 'Start Group Order'}

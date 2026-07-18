@@ -1,5 +1,5 @@
 "use client";
-import { Home, ShoppingBag, ShoppingCart, User } from 'lucide-react';
+import { Home, ShoppingBag, ShoppingCart, User, Store, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCartStore } from '@/store/cartStore';
@@ -11,9 +11,10 @@ export default function BottomNav() {
 
   const navItems = [
     { name: 'Home', path: '/', icon: Home },
+    { name: 'Grocery', path: '/grocery', icon: Store },
+    { name: 'Kitchen', path: '/ai-kitchen', icon: Sparkles },
     { name: 'Orders', path: '/orders', icon: ShoppingBag },
     { name: 'Cart', path: '/cart', icon: ShoppingCart, badge: itemCount },
-    { name: 'Profile', path: '/profile', icon: User },
   ];
 
   return (

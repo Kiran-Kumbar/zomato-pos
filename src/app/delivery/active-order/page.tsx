@@ -76,6 +76,16 @@ export default function ActiveOrderPage() {
           </span>
         </div>
 
+        {order.orderType && (
+          <div className={`mb-4 inline-block text-xs font-black uppercase tracking-widest px-3 py-1 rounded-md text-white ${
+            order.orderType === 'grocery' ? 'bg-gradient-to-r from-emerald-500 to-teal-500' :
+            order.orderType === 'mixed' ? 'bg-gradient-to-r from-purple-500 to-indigo-500' :
+            'bg-gradient-to-r from-red-500 to-orange-500'
+          }`}>
+            {order.orderType === 'grocery' ? 'Grocery Order' : order.orderType === 'mixed' ? 'Mixed Order' : 'Food Order'}
+          </div>
+        )}
+
         <div className="flex flex-col gap-1 mb-8">
           <p className="font-black text-2xl text-gray-900 dark:text-white leading-tight">
             {isHeadingToDrop ? 'HSR Layout, Sector 2' : 'Koramangala Restaurant'}

@@ -113,21 +113,21 @@ export default function CheckoutPage() {
         {/* Eco Delivery Toggle */}
         <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 shadow-sm border border-emerald-100 dark:border-emerald-900/30 flex items-start gap-4">
           <div className="bg-emerald-100 dark:bg-emerald-900/40 p-2.5 rounded-full shrink-0">
-            <Leaf className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+            <Leaf className="w-6 h-6 text-[#FF5A36]" />
           </div>
           <div className="flex-1">
             <div className="flex items-center justify-between mb-1">
               <h3 className="font-bold text-emerald-800 dark:text-emerald-400">Eco Delivery</h3>
               <button 
                 onClick={() => setEcoDelivery(!isEcoDelivery)}
-                className={`w-12 h-6 rounded-full p-1 transition-colors relative flex items-center ${isEcoDelivery ? 'bg-emerald-500' : 'bg-gray-300 dark:bg-gray-700'}`}
+                className={`w-12 h-6 rounded-full p-1 transition-colors relative flex items-center ${isEcoDelivery ? 'bg-[#FF5A36]' : 'bg-gray-300 dark:bg-gray-700'}`}
               >
                 <div 
                   className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-300 ease-in-out ${isEcoDelivery ? 'translate-x-6' : 'translate-x-0'}`}
                 />
               </button>
             </div>
-            <p className="text-sm text-emerald-600 dark:text-emerald-500/80 font-medium leading-tight pr-4">
+            <p className="text-sm text-emerald-600 dark:text-[#FF5A36]/80 font-medium leading-tight pr-4">
               Slightly slower, ₹10 off, fewer solo trips
             </p>
           </div>
