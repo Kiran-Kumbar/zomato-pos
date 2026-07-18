@@ -502,15 +502,25 @@ export default function AIKitchenPage() {
                         <Sparkles className="w-5 h-5 text-[#FF5A36]" /> Vendor Optimization Options
                       </h3>
                       
-                      {activeVendors.length > 1 && (
-                        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 p-4 rounded-2xl flex items-start gap-3">
-                          <Info className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
-                          <div className="text-sm text-blue-900 dark:text-blue-300">
-                            <strong className="block mb-1">Single vs Multiple Vendors Comparison</strong>
-                            You currently have items selected across <strong>{activeVendors.length} vendors</strong>. While you might save ₹40 by combining, it will split your delivery into multiple ETAs. Select <em>Fastest</em> to consolidate to one vendor.
-                          </div>
-                        </div>
-                      )}
+                      {(() => {
+                        const cheapest = optimizations.find(o => o.type === 'cheapest');
+                        const fastest = optimizations.find(o => o.type === 'fastest');
+                        const savings = (fastest?.totalPrice || 0) - (cheapest?.totalPrice || 0);
+                        const isMulti = activeVendors.length > 1 || (cheapest && cheapest.vendorsUsed.length > 1);
+                        
+                        if (isMulti && savings > 0) {
+                          return (
+                            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 p-4 rounded-2xl flex items-start gap-3">
+                              <Info className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
+                              <div className="text-sm text-blue-900 dark:text-blue-300">
+                                <strong className="block mb-1">Single vs Multiple Vendors Comparison</strong>
+                                You currently have items selected across <strong>{activeVendors.length} vendors</strong>. While you might save ₹{savings} by combining vendors, it will split your delivery into multiple ETAs. Select <em>Fastest</em> to consolidate delivery.
+                              </div>
+                            </div>
+                          );
+                        }
+                        return null;
+                      })()}
 
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {optimizations.map((opt, idx) => (
@@ -526,7 +536,9 @@ export default function AIKitchenPage() {
                               {opt.type === 'cheapest' && <Truck className="w-5 h-5 text-[#FF5A36]" />}
                               {opt.type === 'premium' && <Star className="w-5 h-5 text-[#FF5A36]" />}
                               {opt.type === 'multi-vendor' && <ShoppingCart className="w-5 h-5 text-blue-500" />}
-                              <span className="font-bold text-gray-900 dark:text-white capitalize">{opt.type}</span>
+                              <span className="font-bold text-gray-900 dark:text-white capitalize">
+                                {opt.type}
+                              </span>
                             </div>
                             
                             <div className="flex flex-col gap-1">
@@ -536,8 +548,8 @@ export default function AIKitchenPage() {
 
                             <div className="text-xs font-semibold text-gray-400 mt-2">
                               {opt.vendorsUsed.length === 1 
-                                ? opt.vendorsUsed[0].name 
-                                : `${opt.vendorsUsed.length} Vendors Combined`}
+                                ? `1 vendor (${opt.vendorsUsed[0].name})`
+                                : `${opt.vendorsUsed.length} vendors combined`}
                             </div>
                           </button>
                         ))}

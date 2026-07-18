@@ -23,7 +23,8 @@ export const GROCERY_CATEGORIES: GroceryCategory[] = [
   { id: 'c9', name: 'Cleaning', imageUrl: 'https://images.unsplash.com/photo-1584820927498-cafe3c073a6b?w=400&q=80&auto=format&fit=crop' },
   { id: 'c10', name: 'Personal Care', imageUrl: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&q=80&auto=format&fit=crop' },
   { id: 'c11', name: 'Baby Care', imageUrl: 'https://images.unsplash.com/photo-1519689680058-324335c77eba?w=400&q=80&auto=format&fit=crop' },
-  { id: 'c12', name: 'Pet Care', imageUrl: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400&q=80&auto=format&fit=crop' }
+  { id: 'c12', name: 'Pet Care', imageUrl: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400&q=80&auto=format&fit=crop' },
+  { id: 'c13', name: 'Staples & Spices', imageUrl: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&q=80&auto=format&fit=crop' }
 ];
 
 const categoryProductMap: Record<string, string[]> = {
@@ -38,7 +39,8 @@ const categoryProductMap: Record<string, string[]> = {
   c9: ['https://images.unsplash.com/photo-1584820927498-cafe3c073a6b?w=300&q=80&auto=format&fit=crop'],
   c10: ['https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=300&q=80&auto=format&fit=crop'],
   c11: ['https://images.unsplash.com/photo-1519689680058-324335c77eba?w=300&q=80&auto=format&fit=crop'],
-  c12: ['https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=300&q=80&auto=format&fit=crop']
+  c12: ['https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=300&q=80&auto=format&fit=crop'],
+  c13: ['https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=300&q=80&auto=format&fit=crop', 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300&q=80&auto=format&fit=crop']
 };
 
 const getProductName = (categoryId: string, i: number, brand: string) => {
@@ -54,7 +56,8 @@ const getProductName = (categoryId: string, i: number, brand: string) => {
     c9: ['Liquid Detergent 1L', 'Floor Cleaner 1L', 'Dishwash Gel 500ml', 'Toilet Cleaner 500ml'],
     c10: ['Shampoo 400ml', 'Soap 4x100g', 'Toothpaste 150g', 'Body Wash 250ml'],
     c11: ['Baby Wipes 72s', 'Diapers Medium 72s', 'Baby Powder 200g', 'Baby Lotion 200ml'],
-    c12: ['Dog Food 3kg', 'Cat Food 1.2kg', 'Pet Shampoo 200ml', 'Dog Treats 100g']
+    c12: ['Dog Food 3kg', 'Cat Food 1.2kg', 'Pet Shampoo 200ml', 'Dog Treats 100g'],
+    c13: ['Basmati Rice 1kg', 'Atta 5kg', 'Toor Dal 500g', 'Sugar 1kg', 'Salt 1kg', 'Refined Oil 1L', 'Biryani Masala 100g', 'Chaat Masala 50g', 'Turmeric Powder 100g']
   };
   const list = names[categoryId] || ['Grocery Item'];
   return `${brand} ${list[i % list.length]}`;
@@ -64,8 +67,8 @@ const generateProducts = (): GroceryProduct[] => {
   const products: GroceryProduct[] = [];
   const brands = ['Amul', 'Nandini', 'Britannia', 'Haldirams', 'Lays', 'Aashirvaad', 'Tata', 'Fortune', 'Surf Excel', 'Dettol', 'Pampers', 'Pedigree', 'Fresho', 'Organic Tattva'];
   
-  for (let i = 1; i <= 85; i++) {
-    const categoryId = `c${(i % 12) + 1}`;
+  for (let i = 1; i <= 150; i++) {
+    const categoryId = `c${(i % 13) + 1}`;
     const brand = brands[i % brands.length];
     
     const productImages = categoryProductMap[categoryId] || categoryProductMap['c1'];
@@ -88,6 +91,28 @@ const generateProducts = (): GroceryProduct[] => {
 
 export const GROCERY_PRODUCTS = generateProducts();
 
+export const matchProductsForIngredient = (ingredientName: string) => {
+  const iName = ingredientName.toLowerCase().replace(/s$/, ''); // very basic singularize
+  const matches = GROCERY_PRODUCTS.filter(p => {
+    // Exclude non-food categories completely
+    if (['c8', 'c9', 'c10', 'c11', 'c12'].includes(p.categoryId)) return false;
+    
+    const pName = p.name.toLowerCase();
+    
+    // Exact overrides for better matching
+    if (iName === 'chicken' && pName.includes('raw chicken')) return true;
+    if (iName === 'oil' && pName.includes('refined oil')) return true;
+    if (iName === 'potatoes' && pName.includes('potato')) return true;
+    if (iName === 'veggies' && pName.includes('veggie')) return true;
+
+    return pName.includes(iName);
+  });
+  
+  // Return matched IDs or a safe fallback if none found
+  if (matches.length > 0) return matches.map(m => m.id);
+  return [GROCERY_PRODUCTS.find(p => p.categoryId === 'c1')!.id];
+};
+
 export const AI_RECIPES: AIRecipe[] = [
   {
     id: 'r1',
@@ -98,9 +123,9 @@ export const AI_RECIPES: AIRecipe[] = [
     calories: 650,
     imageUrl: 'https://foodish-api.com/images/butter-chicken/butter-chicken1.jpg',
     ingredients: [
-      { name: 'Chicken', quantity: '500g', productIdMapping: ['p1', 'p2'] },
-      { name: 'Butter', quantity: '50g', productIdMapping: ['p3'] },
-      { name: 'Tomato Puree', quantity: '200ml', productIdMapping: ['p4'] }
+      { name: 'Chicken', quantity: '500g', productIdMapping: matchProductsForIngredient('Chicken') },
+      { name: 'Butter', quantity: '50g', productIdMapping: matchProductsForIngredient('Butter') },
+      { name: 'Tomato Puree', quantity: '200ml', productIdMapping: matchProductsForIngredient('Tomato Puree') }
     ],
     instructions: [
       "Marinate the chicken in spices for 30 minutes.",
@@ -117,9 +142,9 @@ export const AI_RECIPES: AIRecipe[] = [
     calories: 350,
     imageUrl: 'https://foodish-api.com/images/dosa/dosa1.jpg',
     ingredients: [
-      { name: 'Dosa Batter', quantity: '500g', productIdMapping: ['p5'] },
-      { name: 'Potatoes', quantity: '300g', productIdMapping: ['p6'] },
-      { name: 'Oil', quantity: '50ml', productIdMapping: ['p7'] }
+      { name: 'Dosa Batter', quantity: '500g', productIdMapping: matchProductsForIngredient('Dosa Batter') },
+      { name: 'Potatoes', quantity: '300g', productIdMapping: matchProductsForIngredient('Potatoes') },
+      { name: 'Oil', quantity: '50ml', productIdMapping: matchProductsForIngredient('Oil') }
     ],
     instructions: [
       "Boil and mash potatoes with spices.",
@@ -136,9 +161,9 @@ export const AI_RECIPES: AIRecipe[] = [
     calories: 450,
     imageUrl: 'https://foodish-api.com/images/samosa/samosa1.jpg',
     ingredients: [
-      { name: 'Frozen Samosas', quantity: '4 pcs', productIdMapping: ['p8'] },
-      { name: 'Curd', quantity: '200g', productIdMapping: ['p9'] },
-      { name: 'Chaat Masala', quantity: '10g', productIdMapping: ['p10'] }
+      { name: 'Frozen Samosas', quantity: '4 pcs', productIdMapping: matchProductsForIngredient('Frozen Samosas') },
+      { name: 'Curd', quantity: '200g', productIdMapping: matchProductsForIngredient('Curd') },
+      { name: 'Chaat Masala', quantity: '10g', productIdMapping: matchProductsForIngredient('Chaat Masala') }
     ],
     instructions: [
       "Fry or bake the samosas until golden.",
@@ -155,9 +180,9 @@ export const AI_RECIPES: AIRecipe[] = [
     calories: 400,
     imageUrl: 'https://foodish-api.com/images/rice/rice1.jpg',
     ingredients: [
-      { name: 'Basmati Rice', quantity: '500g', productIdMapping: ['p11'] },
-      { name: 'Mixed Veggies', quantity: '300g', productIdMapping: ['p12'] },
-      { name: 'Biryani Masala', quantity: '50g', productIdMapping: ['p13'] }
+      { name: 'Basmati Rice', quantity: '500g', productIdMapping: matchProductsForIngredient('Basmati Rice') },
+      { name: 'Mixed Veggies', quantity: '300g', productIdMapping: matchProductsForIngredient('Mixed Veggies') },
+      { name: 'Biryani Masala', quantity: '50g', productIdMapping: matchProductsForIngredient('Biryani Masala') }
     ],
     instructions: [
       "Soak rice for 30 minutes and parboil.",
@@ -174,9 +199,9 @@ export const AI_RECIPES: AIRecipe[] = [
     calories: 600,
     imageUrl: 'https://foodish-api.com/images/pizza/pizza1.jpg',
     ingredients: [
-      { name: 'Pizza Base', quantity: '2 pcs', productIdMapping: ['p14'] },
-      { name: 'Paneer', quantity: '200g', productIdMapping: ['p15'] },
-      { name: 'Cheese', quantity: '150g', productIdMapping: ['p16'] }
+      { name: 'Pizza Base', quantity: '2 pcs', productIdMapping: matchProductsForIngredient('Pizza Base') },
+      { name: 'Paneer', quantity: '200g', productIdMapping: matchProductsForIngredient('Paneer') },
+      { name: 'Cheese', quantity: '150g', productIdMapping: matchProductsForIngredient('Cheese') }
     ],
     instructions: [
       "Spread pizza sauce on the base.",
